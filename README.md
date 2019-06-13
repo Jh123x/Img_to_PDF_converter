@@ -1,5 +1,5 @@
 # Img_to_PDF_converter
-Converts img files into PDF files
+Converts img files into PDF files. The file works offline
 
 ## Getting Started
 Download the .exe file from the link
@@ -24,3 +24,4 @@ The file types below are the ones which are tested
 - [ ] Add support for more image formats
 - [ ] Add a preview images function
 - [ ] Fix Bugs
+- [ ] Make PDF files smaller in size
