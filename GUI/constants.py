@@ -6,5 +6,6 @@ SUBMIT_STRING = "Submit"
 
 FILE_TYPES = (
     ("PNG Files", "*.png"),
-    ("JPG Files", "*.jpg")
+    ("JPG Files", "*.jpg"),
+    ("JPEG Files", "*.jpeg"),
 )
