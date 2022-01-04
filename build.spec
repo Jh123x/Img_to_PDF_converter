@@ -3,7 +3,7 @@ gooey_root = os.path.dirname(gooey.__file__)
 gooey_languages = Tree(os.path.join(gooey_root, 'languages'), prefix = 'gooey/languages')
 gooey_images = Tree(os.path.join(gooey_root, 'images'), prefix = 'gooey/images')
 
-a = Analysis(['main.py'],
+a = Analysis(['__main__.py'],
              hiddenimports=[],
              hookspath=None,
              runtime_hooks=None,
@@ -20,7 +20,7 @@ exe = EXE(pyz,
           options,
           gooey_languages, # Add them in to collected files
           gooey_images, # Same here.
-          name='main',
+          name='Pdf Converter',
           debug=False,
           strip=None,
           upx=True,
