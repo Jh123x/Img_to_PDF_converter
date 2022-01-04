@@ -31,7 +31,7 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-  compile:
+  compile-ubuntu:
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -54,6 +54,21 @@ jobs:
         with:
           name: PDF Converter
           path: ./dist/
+  compile-windows:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Package Application
+      uses: JackMcKew/pyinstaller-action-windows@main
+      with:
+        path: .
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: name-of-artifact
+        path: ./dist/windows
 
     
 
