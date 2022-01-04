@@ -3,7 +3,7 @@ from typing import Optional
 from PIL import Image
 from datetime import datetime
 
-from Core.constants import COMBINE_SUCCESS_MESSAGE, COMBINED_FILENAME, NO_FILES_SELECTED, OUTPUT_FOLDER, OUTPUT_PATH, PDF_FORMAT, RGB_FORMAT, SUCCESS_MESSAGE
+from Core.constants import COMBINE_SUCCESS_MESSAGE, COMBINED_FILENAME, NO_FILES_SELECTED, OUTPUT_FOLDER, OUTPUT_PATH, PDF_FORMAT, RGB_FORMAT, SUCCESS_MESSAGE, DATE_TIME_FORMAT
 
 
 def _convert_file(file_path: str) -> str:
