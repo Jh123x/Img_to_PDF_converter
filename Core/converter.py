@@ -1,6 +1,7 @@
 import os
 from typing import Optional
 from PIL import Image
+from datetime import datetime
 
 from Core.constants import COMBINE_SUCCESS_MESSAGE, COMBINED_FILENAME, NO_FILES_SELECTED, OUTPUT_FOLDER, OUTPUT_PATH, PDF_FORMAT, RGB_FORMAT, SUCCESS_MESSAGE
 
@@ -38,6 +39,7 @@ def _open_image(file_path: str) -> Optional[Image.Image]:
 
     return Image.open(file_path)
 
+
 def combine_all_files(file_paths: tuple[str]) -> str:
     """Combine all the files into one"""
     open_images = []
@@ -58,7 +60,13 @@ def combine_all_files(file_paths: tuple[str]) -> str:
             fails += 1
 
     # Get the output folder
-    output_folder = os.path.join(os.getcwd(), OUTPUT_FOLDER, COMBINED_FILENAME)
+    output_folder = os.path.join(
+        os.getcwd(),
+        OUTPUT_FOLDER,
+        COMBINED_FILENAME.format(
+            datetime.now().strftime(DATE_TIME_FORMAT)
+        )
+    )
 
     first.save(
         output_folder,

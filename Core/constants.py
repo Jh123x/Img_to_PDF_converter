@@ -2,10 +2,13 @@
 PDF_FORMAT = "PDF"
 RGB_FORMAT = "RGB"
 
+# Datetime Format
+DATE_TIME_FORMAT = "_%Y-%m-%d_%H-%M-%S"
+
 # Path Strings
 OUTPUT_FOLDER = "Output"
 OUTPUT_PATH = "{}_output.pdf"
-COMBINED_FILENAME = "Combined_output.pdf"
+COMBINED_FILENAME = "Combined_output{}.pdf"
 
 # Messages
 SUCCESS_MESSAGE = "{} Files successfully converted. {} Failed to convert"
