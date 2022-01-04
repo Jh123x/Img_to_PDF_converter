@@ -1,10 +1,10 @@
-from tkinter import Frame, Label, Entry, Button, StringVar, Checkbutton, Tk, X
+from tkinter import BooleanVar, Frame, Label, Entry, Button, StringVar, Checkbutton, Tk, X
 from tkinter.constants import DISABLED
 from tkinter.filedialog import askopenfilenames
 
-from Core import convert_files
+from Core import convert_files, combine_all_files
 from Core.constants import NO_FILES_SELECTED
-from GUI.constants import BROWSE_STRING, EMPTY_STRING, FILE_TYPES, SUBMIT_STRING, DEFAULT_WINDOW_TITLE, INSTRUCTIONS
+from GUI.constants import BROWSE_STRING, COMBINE_STRING, EMPTY_STRING, FILE_TYPES, LOADING_STRING, STICK_ALL, SUBMIT_STRING, DEFAULT_WINDOW_TITLE, INSTRUCTIONS
 
 
 class Window(Frame):
@@ -23,11 +23,23 @@ class Window(Frame):
 
     def _convert_files(self) -> None:
         """Convert the selected files to a PDF"""
+
+        # Default message to be shown when conerting
+        self.status_text.set(LOADING_STRING)
+
+        # If there are no files selected short circuit the function
         if self.selected_files is None or type(self.selected_files) is not tuple:
-            message = NO_FILES_SELECTED
-        else:
-            message = convert_files(self.selected_files)
-        self.status_text.set(message)
+            self.status_text.set(NO_FILES_SELECTED)
+            return
+
+        # If the user wants to combine all the PDFs into one
+        if self.is_combined.get():
+            msg = combine_all_files(self.selected_files)
+            self.status_text.set(msg)
+            return
+
+        # Default conversion of each file singly
+        self.status_text.set(convert_files(self.selected_files))
 
     def create_widgets(self):
         """Create the widgets within the window"""
@@ -59,10 +71,16 @@ class Window(Frame):
             command=lambda: self._convert_files()
         )
 
+        # Create a checkbox to see if the user wants to combine all the PDFs into one
+        self.is_combined = BooleanVar(False)
+        self.combine = Checkbutton(
+            text=COMBINE_STRING, variable=self.is_combined)
+
         # Oraganising the items in the Tk window
-        self.label.grid(row=1, column=4, sticky='nsew', padx=10)
-        self.status.grid(row=2, column=4, sticky='nsew', padx=10)
+        self.label.grid(row=1, column=4, sticky=STICK_ALL, padx=10)
+        self.status.grid(row=2, column=4, sticky=STICK_ALL, padx=10)
         self.text_box.grid(row=5, column=4, columnspan=8,
-                           rowspan=2, sticky='nsew', padx=10)
+                           rowspan=2, sticky=STICK_ALL, padx=10)
+        self.combine.grid(row=7, column=4, sticky=STICK_ALL, padx=10)
         self.browse_btn.grid(row=8, column=4)
         self.submit.grid(row=9, column=4)

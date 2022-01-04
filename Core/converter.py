@@ -1,10 +1,11 @@
 import os
+from typing import Optional
 from PIL import Image
 
-from Core.constants import NO_FILES_SELECTED, OUTPUT_FOLDER, OUTPUT_PATH, PDF_FORMAT, RGB_FORMAT, SUCCESS_MESSAGE
+from Core.constants import COMBINE_SUCCESS_MESSAGE, COMBINED_FILENAME, NO_FILES_SELECTED, OUTPUT_FOLDER, OUTPUT_PATH, PDF_FORMAT, RGB_FORMAT, SUCCESS_MESSAGE
 
 
-def convert_file(file_path: str) -> str:
+def _convert_file(file_path: str) -> str:
     """Convert 1 file into a PDF"""
     if not os.path.exists(file_path):
         raise FileNotFoundError(file_path)
@@ -26,6 +27,55 @@ def convert_file(file_path: str) -> str:
     return output_name
 
 
+def _open_image(file_path: str) -> Optional[Image.Image]:
+    """
+    Open an image at the given file path
+    First call to open
+    Second call to close
+    """
+    if not os.path.exists(file_path):
+        return None
+
+    return Image.open(file_path)
+
+def combine_all_files(file_paths: tuple[str]) -> str:
+    """Combine all the files into one"""
+    open_images = []
+    fails = 0
+    first = None
+
+    # Open all the files
+    for path in file_paths:
+        try:
+            old_img = _open_image(path)
+            img = old_img.convert('RGB')
+            old_img.close()
+            if first is None:
+                first = img
+                continue
+            open_images.append(img)
+        except IOError:
+            fails += 1
+
+    # Get the output folder
+    output_folder = os.path.join(os.getcwd(), OUTPUT_FOLDER, COMBINED_FILENAME)
+
+    first.save(
+        output_folder,
+        PDF_FORMAT,
+        quality=100,
+        save_all=True,
+        optimize=True,
+        append_images=open_images
+    )
+
+    first.close()
+    for img in open_images:
+        img.close()
+
+    return COMBINE_SUCCESS_MESSAGE.format(len(file_paths))
+
+
 def convert_files(file_paths: tuple) -> str:
     """Convert the file at the locations to multiple PDFs"""
     if len(file_paths) == 0:
@@ -34,7 +84,7 @@ def convert_files(file_paths: tuple) -> str:
     failed = 0
     for path in file_paths:
         try:
-            convert_file(path)
+            _convert_file(path)
         except FileNotFoundError:
             failed += 1
 

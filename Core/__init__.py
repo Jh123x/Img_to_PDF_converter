@@ -1,1 +1,1 @@
-from .converter import convert_file, convert_files
+from .converter import convert_files, combine_all_files
