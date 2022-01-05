@@ -1,4 +1,4 @@
-from tkinter import BooleanVar, Frame, Label, Entry, Button, StringVar, Checkbutton, Tk, X
+from tkinter import BooleanVar, Frame, Label, Entry, Button, StringVar, Checkbutton, Tk
 from tkinter.constants import DISABLED
 from tkinter.filedialog import askopenfilenames
 
