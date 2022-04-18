@@ -50,7 +50,7 @@ def combine_all_files(file_paths: tuple[str]) -> str:
     for path in file_paths:
         try:
             old_img = _open_image(path)
-            img = old_img.convert('RGB')
+            img = old_img.convert(RGB_FORMAT)
             old_img.close()
             if first is None:
                 first = img
